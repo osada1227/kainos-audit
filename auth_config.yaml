@@ -1,0 +1,20 @@
+cookie:
+  expiry_days: 7
+  key: dev-only-replace-via-secrets
+  name: kainos_audit_auth
+credentials:
+  usernames:
+    kainos:
+      email: kainos@example.com
+      name: カイノス様
+      password: $2b$12$KfcIMAIsUDsRDKcB3xeUVeetiWvI7aaFALg5Lw2.OJyq1ymDqRf7S
+      failed_login_attempts: 0
+      logged_in: false
+    admin:
+      email: admin@example.com
+      name: 管理者 (race-tech)
+      password: $2b$12$DJt92OJRse.f.UDCEq59xe6lI5dC2dhvLPhOn4/Q6K7cWv/On7qsq
+      failed_login_attempts: 0
+      logged_in: false
+pre-authorized:
+  emails: []

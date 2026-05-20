@@ -618,8 +618,8 @@ st.set_page_config(
 AUTH_CONFIG_PATH = ROOT / "auth_config.yaml"
 
 
-@st.cache_resource(show_spinner=False)
 def load_authenticator() -> stauth.Authenticate:
+    # @st.cache_resource はNG: 内部で CookieManager (Streamlit widget) を生成するため
     if not AUTH_CONFIG_PATH.exists():
         st.error(
             f"認証設定ファイル {AUTH_CONFIG_PATH.name} が見つかりません。"

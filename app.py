@@ -714,7 +714,29 @@ def is_server_managed_api_key() -> bool:
 with st.sidebar:
     st.markdown(f"### 👤 {_current_user}")
     st.caption(f"username: `{_current_username}`")
-    authenticator.logout(button_name="🚪 ログアウト", location="sidebar")
+    # streamlit-authenticator 0.4.x の logout(location='sidebar') が
+    # KeyError: "logout" を出すため、自前のログアウトを実装
+    if st.button("🚪 ログアウト", key="manual_logout", use_container_width=True):
+        cookie_obj = (
+            getattr(authenticator, "cookie_handler", None)
+            or getattr(authenticator, "cookie_controller", None)
+            or getattr(authenticator, "cookie_manager", None)
+        )
+        if cookie_obj is not None:
+            for method_name in ("delete_cookie", "delete", "expire_cookie"):
+                m = getattr(cookie_obj, method_name, None)
+                if callable(m):
+                    try:
+                        m()
+                    except Exception:  # noqa: BLE001
+                        pass
+                    break
+        for _k in (
+            "authentication_status", "name", "username",
+            "logout", "init", "api_key",
+        ):
+            st.session_state[_k] = None
+        st.rerun()
     st.divider()
 
     effective_key, key_source = get_effective_api_key()

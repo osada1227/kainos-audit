@@ -646,6 +646,9 @@ def load_authenticator() -> stauth.Authenticate:
 
 
 authenticator = load_authenticator()
+# streamlit-authenticator 0.4.x が内部で参照するキーを先回りで初期化
+for _k in ("authentication_status", "name", "username", "logout", "init"):
+    st.session_state.setdefault(_k, None)
 authenticator.login(location="main", fields={
     "Form name": "🔐 ログイン",
     "Username": "ユーザー名",
